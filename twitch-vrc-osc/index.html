@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<title>Twitch → VRChat OSC</title>
+<style>
+  body { font: 14px system-ui, sans-serif; background: #18181b; color: #efeff1; margin: 0; padding: 16px; }
+  h1 { font-size: 18px; margin: 0 0 12px; }
+  label { display: block; margin: 10px 0 4px; color: #adadb8; }
+  input, textarea { width: 100%; box-sizing: border-box; background: #0e0e10; color: #efeff1; border: 1px solid #3a3a3d; border-radius: 6px; padding: 8px; font: inherit; }
+  textarea { height: 220px; font-family: ui-monospace, Consolas, monospace; font-size: 12px; }
+  .row { display: flex; gap: 8px; }
+  button { background: #9147ff; color: #fff; border: 0; border-radius: 6px; padding: 8px 12px; margin: 10px 6px 0 0; cursor: pointer; }
+  button.alt { background: #3a3a3d; }
+  #tests button { background: #26262c; font-size: 12px; }
+  #log { background: #0e0e10; border-radius: 6px; padding: 8px; height: 150px; overflow: auto; font: 12px ui-monospace, Consolas, monospace; white-space: pre-wrap; margin-top: 12px; }
+  h2 { font-size: 15px; margin: 22px 0 6px; }
+  #upd { color: #adadb8; font-size: 12px; margin-bottom: 8px; }
+  #upd button { margin: 0 0 0 8px; padding: 4px 8px; }
+  #vstate { margin-top: 8px; color: #adadb8; }
+  #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; margin-top: 10px; }
+  .card { background: #26262c; border-radius: 8px; padding: 8px; }
+  .card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; background: #0e0e10; border-radius: 6px; }
+  .card .nm { margin: 6px 0; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card input { font-size: 12px; padding: 5px; }
+  .card button { padding: 5px 8px; font-size: 12px; margin: 6px 4px 0 0; }
+</style>
+<h1>Twitch → VRChat OSC</h1>
+<div id="upd"></div>
+<label>Client ID de Twitch (app tipo "Public")</label>
+<input id="clientId">
+<div class="row">
+  <div style="flex:3"><label>Host OSC</label><input id="host"></div>
+  <div style="flex:1"><label>Puerto</label><input id="port" type="number"></div>
+</div>
+<label>Recompensas (el "title" debe coincidir con el nombre de la recompensa en Twitch)</label>
+<textarea id="rewards" spellcheck="false"></textarea>
+<button id="save" class="alt">Guardar</button>
+<button id="connect">Conectar con Twitch</button>
+<button id="disconnect" class="alt">Desconectar</button>
+<div id="tests"></div>
+<h2>Cuenta de VRChat (avatares subidos)</h2>
+<div id="vform">
+  <div class="row"><input id="vu" placeholder="Usuario o correo de VRChat"><input id="vp" type="password" placeholder="Contraseña"></div>
+  <div id="v2" style="display:none"><input id="vc" placeholder="Código de verificación (2FA)" style="margin-top:8px"></div>
+  <button id="vlogin">Iniciar sesión</button>
+</div>
+<button id="vload" class="alt" style="display:none">Recargar avatares</button>
+<button id="vout" class="alt" style="display:none">Cerrar sesión</button>
+<div id="vstate"></div>
+<div id="grid"></div>
+<div id="log"></div>
+<script src="renderer.js"></script>
